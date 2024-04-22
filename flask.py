@@ -3,7 +3,7 @@ from sqlite3 import *
 from flask_mail import Mail, Message
 import smtplib
 from random import randrange
-import flask
+import pickle
 import os
 
 app = Flask(__name__)
@@ -39,16 +39,18 @@ def home():
 
 @app.route("/find")
 def find():
-	if 'username' in session:
-		return render_template("find.html", name = session['username'])
-	else:
-		return redirect(url_for('home'))
+    if 'username' in session:
+        return render_template("find.html", name = session['username'])
+    else:
+        return render_template("find.html", name = "Guest")
 
-@app.route("/check", methods = ["POST"])
+@app.route("/check", methods = ["GET", "POST"])
 def check():
 	if request.method == "POST":
 		if 'username' in session:
 			name = session['username']
+		else:
+		    name = 'Guest'
 		age = float(request.form["age"])
 		r1 = request.form["r1"]
 		if r1 == "1":
@@ -69,7 +71,10 @@ def check():
 		with open("/home/rbp5453/mysite/heartdiseaseprediction.model","rb") as f:
 			model = pickle.load(f)
 		res = model.predict(d)
-		return render_template("find.html", msg = res, name = session['username'])
+		if 'username' in session:
+			return render_template("find.html", msg = res, name = session['username'])
+		else:
+		    return render_template("find.html", msg = res, name = 'Guest')
 	else:
 		return render_template("home.html")
 
@@ -118,47 +123,7 @@ def login():
 			return render_template("login.html", msg = msg)
 	else:
 		return render_template("login.html")
-
-@app.route("/forgot", methods = ["GET", "POST"])
-def forgot():
-	if request.method == "POST":
-		un = request.form["un"]
-		em = request.form["em"]
-		con = None
-		try:
-			con = connect('monicaheart.db')
-			cursor = con.cursor()
-			sql = "select * from user where username = '%s'"
-			cursor.execute(sql % (un))
-			data = cursor.fetchall()
-			if len(data) == 0:
-				return render_template("forgot.html", msg = "invalid login")
-			else:
-				session['username'] = un
-				pw1 = ""
-				text = "0123456789"
-				for i in range(6):
-					pw1 = pw1 + text[randrange(len(text))]
-				print(pw1)
-				msg = Message("Hello again from HeartDiseasePrediction", sender = "heartdiseaserp@yahoo.com", recipients = [em])
-				msg.body = "Greetings from HeartDiseasePredictor! Seems like you forgot your password. Your new password is " + str(pw1)
-				mail.send(msg)
-				try:
-					con = connect("monicaheart.db")
-					cursor = con.cursor()
-					sql = "update user set password = '%s' where username = '%s'"
-					con.execute(sql % (pw1, un))
-					con.commit()
-					return render_template("login.html", msg = "Password has been mailed to you")
-				except Exception as e:
-					con.rollback()
-					return render_template("forgot.html", msg = "Some Issue: " + str(e))
-		except Exception as e:
-			msg = "Issue " + str(e)
-			return render_template("forgot.html", msg = msg)
-	else:
-		return render_template("forgot.html")
-
+	
 @app.route("/logout", methods = ["POST"])
 def logout():
 	session.clear()
