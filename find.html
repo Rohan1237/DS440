@@ -12,7 +12,7 @@
 	height: 40px;
 	width: 360px;
 	border-radius: 5px;
-	background-color: #f7f7f7;	
+	background-color: #f7f7f7;
 }
 #entry:hover{
 	background-color: #fcfcfc;
@@ -78,7 +78,7 @@
 .right {
   right: 0;
   background-color:#c0ebe6;
-}	
+}
 /* Split the screen in half */
 .split {
   height: 100%;
@@ -112,36 +112,40 @@
 	<h3>Fill the form below to check if you have heart disease or not! </h3>
 	<form action = "/check" method = "POST">
 	<br>
-	<input type = "number" name = "age" placeholder = "Enter Age" required id = "entry">
+	<input type = "number" name = "age" placeholder = "Enter Age (in years)" required id = "entry">
 	<br>
-	<h4>Chest Pain Type:  </h4>
+	<h4>Chest Pain Type:
+	    <span style="font-size: 14px;">1: Asymptomatic; 2: Atypical Angina; 3: Non-anginal Pain; 4: Typical Angina</span>
 	<h4>
 	<input type = "radio" name = "r1" value = "1" checked id = "num" > 1 </input>
 	<input type = "radio" name = "r1" value = "2" id = "num"> 2 </input>
 	<input type = "radio" name = "r1" value = "3" id = "num"> 3 </input>
 	<input type = "radio" name = "r1" value = "4" id = "num"> 4 </input>
 	</h4>
-	
-	<input type = "number" name = "BP" placeholder = "Enter BP" required id = "entry">
+
+	<input type = "number" name = "BP" placeholder = "Enter Blood Pressure (mm Hg)" required id = "entry">
 	<br>
-	<input type = "number" name = "CH" placeholder = "Enter cholestrol" required id = "entry">
+	<input type = "number" name = "CH" placeholder = "Enter Cholesterol (mg / dL)" required id = "entry">
 	<br>
-	<input type = "number" name = "maxhr" placeholder = "Enter Max Heart rate" required id = "entry">
+	<input type = "number" name = "maxhr" placeholder = "Enter Max Heart Rate (bpm)" required id = "entry">
 	<br>
-	<input type = "number" name = "STD" placeholder = "Enter ST depression" step = "any" required id = "entry">
+	<input type = "number" name = "STD" placeholder = "Enter ST Depression" step = "any" required id = "entry">
 	<br>
-	<input type = "number" name = "fluro" placeholder = "Enter no of vessels fluro" step = "any" required id = "entry">
+	<span style="font-size: 14px;">ST depression induced by exercise relative to rest</span>
+	<input type = "number" name = "fluro" placeholder = "Enter # of Vessels Fluro" step = "any" required id = "entry">
 	<br>
-	<input type = "number" name = "Th" placeholder = "Thallium" required id = "entry">
+	<span style="font-size: 14px;">Number of major vessels (0-3) colored by flourosopy</span>
+	<input type = "number" name = "Th" placeholder = "Thalassemia Value" required id = "entry">
 	<br>
+	<span style="font-size: 14px;">1: Fixed Defect; 2: Normal Blood Flow; 3: Reversible Defect</span>
 	<input type = "submit" value = "Predict" id = "submit">
-	<br>	
+	<br>
 	<h2> <button> {{ msg }} </button></h2>
 	<a style = "font-size: 15px" href = "https://www.allbusinesstemplates.com/thumbs/c0cc5eed-c17d-4e24-8650-d8069bbbb52e_1.png"> Click here for more guidance on how to fill the form</a>
 	</form>
   </div>
 </div>
-	
+
 
 </center>
 </body>
