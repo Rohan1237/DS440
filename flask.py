@@ -71,10 +71,11 @@ def check():
 		with open("/home/rbp5453/mysite/heartdiseaseprediction.model","rb") as f:
 			model = pickle.load(f)
 		res = model.predict(d)
-		if 'username' in session:
-			return render_template("find.html", msg = res, name = session['username'])
-		else:
-		    return render_template("find.html", msg = res, name = 'Guest')
+		prediction_result = "Presence" if res == ['Presence'] else "Absence"
+		if prediction_result == "Presence":
+		    return redirect(url_for('presence_page'))
+		elif prediction_result == "Absence":
+		    return redirect(url_for('absence_page'))
 	else:
 		return render_template("home.html")
 
@@ -128,6 +129,14 @@ def login():
 def logout():
 	session.clear()
 	return redirect(url_for("login"))
+
+@app.route('/presence_page')	
+def presence_page():
+    return render_template('presence_page.html')
+    
+@app.route('/absence_page')
+def absence_page():
+    return render_template('absence_page.html')  # Create a template for the absence page
 
 if __name__ == "__main__":
     app.run(debug = True, port=7999)
