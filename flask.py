@@ -65,9 +65,9 @@ def check():
 		CH = float(request.form["CH"])
 		maxhr = float(request.form["maxhr"])
 		STD = float(request.form["STD"])
-		fluro = float(request.form["fluro"])
+		flouro = float(request.form["flouro"])
 		Th = float(request.form["Th"])
-		d = [[age, cp, BP, CH, maxhr, STD, fluro, Th]]
+		d = [[age, cp, BP, CH, maxhr, STD, flouro, Th]]
 		with open("/home/rbp5453/mysite/heartdiseaseprediction.model","rb") as f:
 			model = pickle.load(f)
 		res = model.predict(d)
@@ -124,16 +124,16 @@ def login():
 			return render_template("login.html", msg = msg)
 	else:
 		return render_template("login.html")
-	
+
 @app.route("/logout", methods = ["POST"])
 def logout():
 	session.clear()
 	return redirect(url_for("login"))
 
-@app.route('/presence_page')	
+@app.route('/presence_page')
 def presence_page():
     return render_template('presence_page.html')
-    
+
 @app.route('/absence_page')
 def absence_page():
     return render_template('absence_page.html')  # Create a template for the absence page
